@@ -1,43 +1,42 @@
 package controllers;
 
-import java.util.EmptyStackException;
-import models.Node;
+import models.NodeGenerico;
 
-public class Stack {
-    private Node top;
+public class StackG<T> {
     private int size;
+    private NodeGenerico<T> top;
 
-    public Stack() {
+    public StackG() {
         this.top = null;
         this.size = 0;
     }
 
-    public void push(int value) {
-        Node newNode = new Node(value);
+    public void push(T value) {
+        NodeGenerico<T> newNode = new NodeGenerico<>(value);
         newNode.setNext(top);
         top = newNode;
         size++;
     }
 
-    public int pop() {
-        if (top == null) {
-            throw new EmptyStackException();
+    public T pop() {
+        if (isEmpty()) {
+            throw new RuntimeException("La pila está vacía");
         }
-        int value = top.getValue();
+        T value = top.getValue();
         top = top.getNext();
         size--;
         return value;
     }
 
-    public boolean isEmpty() {
-        return top == null;
-    }
-
-    public int peek() {
+    public T peek() {
         if (isEmpty()) {
-            throw new EmptyStackException();
+            throw new RuntimeException("La pila está vacía");
         }
         return top.getValue();
+    }
+
+    public boolean isEmpty() {
+        return top == null;
     }
 
     public int size() {
@@ -49,7 +48,7 @@ public class Stack {
             System.out.println("La pila está vacía.");
             return;
         }
-        Node current = top;
+        NodeGenerico<T> current = top;
         StringBuilder sb = new StringBuilder();
         while (current != null) {
             sb.append(current.getValue()).append(" | ");
